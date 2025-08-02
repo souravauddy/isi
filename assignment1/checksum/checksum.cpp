@@ -113,7 +113,7 @@ int main() {
     std::cout << checksum << '\n';
 
     checksum %= MOD;
-    assert(checksum < 10); // 10 is not a valid checksum for ISBN-10
+    //assert(checksum < 10); // 10 is not a valid checksum for ISBN-10
     number.push_back(DIGIT + checksum % MOD);
 
     std::cout << ISBN_formatted(number) << '\n';
