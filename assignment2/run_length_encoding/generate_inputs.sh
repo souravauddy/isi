@@ -8,9 +8,7 @@ else
     inputs=0;
 fi
 
-if [[ $current_directory != "tests" ]]; then
-    cd "./tests";
-fi
+cd "./tests";
 
 function _max() {
     a=$1;
