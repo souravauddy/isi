@@ -177,7 +177,7 @@ struct polynomial {
     }
 };
 
-void inputpolynomial_terms(polynomial &polynomial) {
+void input_polynomial(polynomial &polynomial) {
     
 }
 
@@ -191,8 +191,8 @@ int main(const int argc, const char **argv) {
     std::cin >> number_of_terms;
     polynomial polynomial1(number_of_terms), polynomial2(number_of_terms);
 
-    inputpolynomial_terms(polynomial1);
-    inputpolynomial_terms(polynomial2);
+    input_polynomial(polynomial1);
+    input_polynomial(polynomial2);
 
     std::cout << polynomial1 * polynomial2 << '\n';
     std::cout << polynomial1.pow(2) << '\n';
