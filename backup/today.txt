@@ -1,0 +1,13 @@
+Today Tasks: (Wednesday 22 Jan 2025)
+
+1) revise heap
+2) complete computer networks chapter 1 pyq's and revise
+3) revise linear algebra and calculus
+4) analize mock tests
+
+Tomorrow Tasks: (Thursday 23 Jan 2025)
+
+1) revise dbms remaining portion
+2) do deadlock pyq's and file system pyq's os
+3) do computer networks chapter 2 pyq's and revise
+4) give goclasses mock test 1
