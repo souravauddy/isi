@@ -6,7 +6,7 @@
 #include <stdbool.h>
 #include "generic-stacks.h"
 
-STACK * create_stack() {
+STACK * allocate_stack() {
     return (STACK *) malloc(sizeof(STACK));
 }
 
@@ -22,11 +22,11 @@ int init_stack(STACK *stack, int element_size, int capacity) {
     return 1; // memory allocation successful.
 }
 
-bool is_empty(const STACK *stack) {
+inline bool is_empty(const STACK *stack) {
     return stack->num_elements == 0;
 }
 
-void free_stack(STACK *stack) {
+inline void free_stack(STACK *stack) {
     free(stack->elements);
     free(stack);
 }
@@ -35,7 +35,7 @@ int push(STACK *stack, const void *element_pointer) {
     if (stack->num_elements == stack->max_elements)
         return 0; // there is no space left in the stack to push a new element.
 
-    memcpy(stack->elements + stack->num_elements * stack->element_size, element_pointer, stack->element_size);
+    memcpy((char *) stack->elements + stack->num_elements * stack->element_size, element_pointer, stack->element_size);
     stack->num_elements++;
     return 1; // push successful.
 }
@@ -45,10 +45,31 @@ int pop(STACK *stack, void *element_pointer) {
         return 0; // there is not element left to pop.
 
     stack->num_elements--;
-    memcpy(element_pointer, stack->elements + stack->num_elements * stack->element_size, stack->element_size);
+    memcpy(element_pointer, (char *) stack->elements + stack->num_elements * stack->element_size, stack->element_size);
     return 1; // pop successful.
 }
 
+const int MAX_SIZE = (int) 5;
+
 int main(const int argc, const char **argv) {
-    
+    STACK *stack = allocate_stack();
+    init_stack(stack, sizeof(int), MAX_SIZE);
+
+    int *elements = (int *) malloc(MAX_SIZE * sizeof(int));
+
+    for (int i = 0; i < MAX_SIZE; i++)
+        elements[i] = i + 1;
+
+    for (int i = 0; i < MAX_SIZE; i++)
+        push(stack, elements + i);
+
+    int *element = (int *) malloc(sizeof(int));
+
+    for (int i = 0; i < MAX_SIZE; i++) {
+        pop(stack, element);
+        printf("%d ", *((int *) element));
+    }
+
+    puts("");
+    free_stack(stack);
 }
