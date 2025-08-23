@@ -40,7 +40,7 @@ int insert(LIST *list, unsigned int index, DATA data) {
     }
 
     if (index > list->capacity) {
-        ERR_MESG("Out of Limit Insertion Requested");
+        ERR_MESG("Insertion at Invalid Index Requested.");
     }
 
     int current = list->head, next_free = list->elements[list->free].next;
@@ -68,6 +68,30 @@ int insert(LIST *list, unsigned int index, DATA data) {
     list->elements[list->free].next = list->elements[current].next;
     list->elements[current].next = list->free;
     list->free = next_free;
+
+    return 1;
+}
+
+int delete(LIST *list, unsigned int index, DATA *data) {
+    if (list->length == 0) {
+        ERR_MESG("No Element to Delete.");
+    }
+
+    int current = list->head, next_free = list->free;
+    list->length--;
+
+    if (index == 0) {
+        *data = list->elements[current].data;
+        list->free = list->head;
+        list->head = list->elements[list->head].next;
+        list->elements[list->free].next = next_free;
+        list->elements[list->free].prev = -1;
+        
+        if (list->head != -1) // when only one element is present in the list.
+            list->elements[list->head].prev = -1;
+
+        return 1;
+    }
 
     return 1;
 }
@@ -121,7 +145,7 @@ void print_list_reverse(LIST *list) {
 void free_list(LIST *list) {
     for (int i = 0; i < list->capacity; i++)
         list->elements[i].next = i + 1;
-    list->elements[list->capacity - 1].next = -1;\
+    list->elements[list->capacity - 1].next = -1;
 
     list->free = 0;
     free(list->elements);

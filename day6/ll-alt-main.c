@@ -29,9 +29,15 @@ int main(int ac, char *av[])
     print_list(&l);
     print_list_reverse(&l);
 
-    debug(atoi(av[2]));
-    printf("%d\n", find_index_of(&l, atoi(av[2])));
+    DATA *data = (DATA *) malloc(sizeof(DATA));
+    delete(&l, 0, data);
 
+    print_list(&l);
+
+    insert(&l, 2, *data);
+    print_list(&l);
+
+    free(data);
     free_list(&l);
     return 0;
 }

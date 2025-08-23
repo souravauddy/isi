@@ -23,5 +23,7 @@ int find_value_at(LIST *l, unsigned int index, DATA *d);
 void print_list(LIST *l);
 void print_list_reverse(LIST *l);
 void free_list(LIST *l);
+int insert_at_end(LIST *l, DATA d);
+int delete_at_end(LIST *l, DATA *d);
 
 #endif /* LL_ALT_H */
