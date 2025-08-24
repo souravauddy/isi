@@ -1,5 +1,6 @@
 {
     "files.associations": {
-        "linked_lists.h": "c"
+        "linked_lists.h": "c",
+        "common.h": "c"
     }
 }

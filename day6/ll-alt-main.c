@@ -23,21 +23,11 @@ int main(int ac, char *av[])
         else
             fprintf(stderr, "Inserted %d at index %d successfully\n", d, i-1);
         
-        //dump_table(&l);
+        // dump_table(&l);
     }
 
     print_list(&l);
-    print_list_reverse(&l);
 
-    DATA *data = (DATA *) malloc(sizeof(DATA));
-    delete(&l, 0, data);
-
-    print_list(&l);
-
-    insert(&l, 2, *data);
-    print_list(&l);
-
-    free(data);
     free_list(&l);
     return 0;
 }

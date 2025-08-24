@@ -5,10 +5,12 @@
 #include <assert.h>
 
 typedef int DATA;
+
 typedef struct node {
     DATA data;
     int next, prev;
 } NODE;
+
 typedef struct {
     int head, tail, free;
     unsigned int length, capacity;
@@ -25,5 +27,7 @@ void print_list_reverse(LIST *l);
 void free_list(LIST *l);
 int insert_at_end(LIST *l, DATA d);
 int delete_at_end(LIST *l, DATA *d);
+int insert_at_begining(LIST *l, DATA d);
+int delete_at_begining(LIST *l, DATA *d);
 
 #endif /* LL_ALT_H */
