@@ -2,7 +2,7 @@
 
 #define debug(x) printf("%s = %d\n", #x, x)
 
-int init_list(LIST *list, int size) {
+int init_list(LIST *list, const int size) {
     list->elements = (NODE *) malloc(size * sizeof(NODE));
 
     if (list->elements == NULL)
@@ -22,7 +22,7 @@ int init_list(LIST *list, int size) {
     return 1;
 }
 
-static inline void create_head(LIST *list, DATA data) {
+static inline void create_head(LIST *list, const DATA data) {
     list->head = list->free;
     list->elements[list->head].data = data;
     list->tail = list->head;
@@ -33,6 +33,7 @@ static inline void create_head(LIST *list, DATA data) {
 }
 
 static int increase_capacity(LIST *list) {
+    list->free = list->capacity;
     list->capacity = list->capacity * 2;
     list->elements = (NODE *) realloc(list->elements, list->capacity * sizeof(NODE));
 
@@ -45,7 +46,6 @@ static int increase_capacity(LIST *list) {
     }
 
     list->elements[list->capacity - 1].next = -1;
-    list->free = list->capacity / 2;
 
     return 1;
 }
@@ -179,11 +179,7 @@ int delete(LIST *list, unsigned int index, DATA *data) {
     while (--index > 0)
         current = list->elements[current].next;
 
-    int next = list->elements[current].next;
-    assert(next != -1);
-    int next_to_next = list->elements[next].next;
-    assert(next_to_next != -1);
-
+    int next = list->elements[current].next, next_to_next = list->elements[next].next;
     list->elements[current].next = next_to_next;
     list->elements[next_to_next].prev = current;
     list->elements[next].next = list->free;
@@ -193,7 +189,7 @@ int delete(LIST *list, unsigned int index, DATA *data) {
     return 1;
 }
 
-int find_index_of(LIST *list, DATA data) {
+int find_index_of(const LIST *list, DATA data) {
     int current = list->head, position = 0;
 
     while (current != -1 && list->elements[current].data != data) {
@@ -204,20 +200,20 @@ int find_index_of(LIST *list, DATA data) {
     return current == -1 ? -1 : position;
 }
 
-int find_value_at(LIST *list, unsigned int index, DATA *data) {
+int find_value_at(const LIST *list, unsigned int index, DATA *data) {
     if (index >= list->length)
         return -1;
 
     int current = list->head;
 
-    while (--index > 0)
+    while (index-- > 0)
         current = list->elements[current].next;
     *data = list->elements[current].data;
 
     return 1;
 }
 
-void print_list(LIST *list) {
+void print_list(const LIST *list) {
     int current = list->head;
 
     while (current != -1) {
@@ -228,7 +224,7 @@ void print_list(LIST *list) {
     puts("");
 }
 
-void print_list_reverse(LIST *list) {
+void print_list_reverse(const LIST *list) {
     int current = list->tail;
 
     while (current != -1) {
@@ -240,11 +236,8 @@ void print_list_reverse(LIST *list) {
 }
 
 void free_list(LIST *list) {
-    for (int i = 0; i < list->capacity; i++)
-        list->elements[i].next = i + 1;
-    list->elements[list->capacity - 1].next = -1;
-
-    list->free = 0;
+    list->head = list->tail = list->free = -1;
+    list->length = list->capacity = 0;
     free(list->elements);
     list->elements = NULL;
 }
