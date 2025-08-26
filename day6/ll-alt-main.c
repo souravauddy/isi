@@ -26,6 +26,9 @@ int main(int ac, char *av[])
         // dump_table(&l);
     }
 
+    debug(l.head);
+    debug(l.tail);
+
     print_list(&l);
 
     free_list(&l);
