@@ -87,9 +87,10 @@ int main() {
     std::cin.tie(nullptr);
 #endif
     
+    const std::array<int, MAX_MOVES> KNIGHT_ROW_STEP = {2, 1, -1, -2, -2, -1, 1, 2}, KNIGHT_COLUMN_STEP = {1, 2, 2, 1, -1, -2, -2, -1};
+
     int M, N, row, column, steps;
     std::cin >> M >> N >> row >> column >> steps;
-    std::array<int, MAX_MOVES> KNIGHT_ROW_STEP = {2, 1, -1, -2, -2, -1, 1, 2}, KNIGHT_COLUMN_STEP = {1, 2, 2, 1, -1, -2, -2, -1};
     std::vector<int> valid_steps(steps + 1);
 
     auto valid = [&](auto &&r, auto &&c) -> bool {
