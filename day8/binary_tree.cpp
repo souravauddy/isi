@@ -13,7 +13,7 @@ int init_tree(BINARY_TREE *tree, int capacity) {
     tree->root = INT_NULL;
 
     for (int i = 0; i < capacity; i++) {
-        tree->nodes[i].left = i + 1;
+        tree->nodes[i].left = i + 1;    // to maintain the free list.
         tree->nodes[i].right = INT_NULL;
         tree->nodes[i].parent = INT_NULL;
         tree->nodes[i].data = SENTINEL;
