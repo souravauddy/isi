@@ -91,7 +91,7 @@ int main() {
 
     int M, N, row, column, steps;
     std::cin >> M >> N >> row >> column >> steps;
-    std::vector<int> valid_steps(steps + 1);
+    std::vector<int> count_valid_steps(steps + 1);
 
     auto valid = [&](auto &&r, auto &&c) -> bool {
         return (r >= 0 && r < M && c >= 0 && c < N);
@@ -101,7 +101,7 @@ int main() {
         if (step == steps + 1)
             return;
 
-        valid_steps[step]++;
+        count_valid_steps[step]++;
 
         for (int m = 0; m < MAX_MOVES; m++) {
             int next_row = row + KNIGHT_ROW_STEP[m], next_column = column + KNIGHT_COLUMN_STEP[m];
@@ -115,8 +115,8 @@ int main() {
     double probability = 1;
 
     for (int step = 1; step <= steps; step++) {
-        probability *= (double) valid_steps[step] / (sample_space * MAX_MOVES);
-        sample_space = valid_steps[step];
+        probability *= (double) count_valid_steps[step] / (sample_space * MAX_MOVES);
+        sample_space = count_valid_steps[step];
     }
 
     std::cout << std::fixed << std::setprecision(6) <<  probability << '\n';
