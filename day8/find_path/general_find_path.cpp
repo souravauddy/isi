@@ -1,4 +1,4 @@
-#include "binary_trees.h"
+#include "../binary_trees.h"
 #include <iostream>
 
 void swap(int &a, int &b) {
@@ -44,10 +44,10 @@ int path_sum(BINARY_TREE *tree, int first_node_index, int second_node_index) {
 }
 
 bool find_path(BINARY_TREE *tree, int target) {
-    for (int i = 0; i < tree->capacity; i++) {
-        for (int j = i + 1; j < tree->capacity; j++) {
-            if (path_sum(tree, i, j) == target) {
-                std::cout << i << ' ' << j << '\n';
+    for (int node1 = 0; node1 < tree->capacity; node1++) {
+        for (int node2 = node1 + 1; node2 < tree->capacity; node2++) {
+            if (path_sum(tree, node1, node2) == target) {
+                std::cout << node1 << ' ' << node2 << '\n';
                 return true;
             }
         }
@@ -68,8 +68,7 @@ int main() {
 
     int target;
     std::cin >> target;
-
-    tree->root = 0;
+    init_root(tree, 0);
 
     std::cout << find_path(tree, target) << '\n';
 

@@ -22,5 +22,7 @@ int init_tree(BINARY_TREE *tree, int capacity);
 void free_tree(BINARY_TREE *tree);
 void read_tree(BINARY_TREE *tree);
 void print_tree(BINARY_TREE *tree);
+int increase_capacity(BINARY_TREE *tree);
+void init_root(BINARY_TREE *tree, int root_index);
 
 #endif

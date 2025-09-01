@@ -21,18 +21,18 @@ decltype(auto) y_combinator(Fun &&fun) {
 }
 
 void read(BINARY_TREE *tree) {
-    for (int i = 0; i < tree->capacity; i++) {
+    for (int node = 0; node < tree->capacity; node++) {
         int left, right;
         std::cin >> left >> right;
 
-        tree->nodes[i].left = left;
-        tree->nodes[i].right = right;
+        tree->nodes[node].left = left;
+        tree->nodes[node].right = right;
 
         if (left != INT_NULL)
-            tree->nodes[tree->nodes[i].left].parent = i;
+            tree->nodes[left].parent = node;
 
         if (right != INT_NULL)
-            tree->nodes[tree->nodes[i].right].parent = i;
+            tree->nodes[right].parent = node;
     }
 }
 
@@ -46,7 +46,7 @@ int main() {
 
     auto member_node = [&](int node) -> bool {
         assert(node != INT_NULL);
-        return tree->nodes[node].left != INT_NULL && tree->nodes[node].right != INT_NULL ? 0 : 1;
+        return  !(tree->nodes[node].left != INT_NULL && tree->nodes[node].right != INT_NULL);
     };
 
     auto preorder = y_combinator([&](auto self, int node) -> int {
