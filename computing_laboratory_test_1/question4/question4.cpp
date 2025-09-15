@@ -110,8 +110,11 @@ struct line {
     }
 
     static std::array<double, 2> intersection_point(const line &line1, const line &line2) {
-        if (line1.slope == line2.slope)
+        if (line1.slope == line2.slope && line1.y_intercept != line2.y_intercept)
             return {SENTINEL, SENTINEL};
+
+        if (line1.slope == line2.slope && line1.y_intercept == line2.y_intercept)
+            return {-SENTINEL, -SENTINEL};
         
         double abscissa = (line2.y_intercept - line1.y_intercept) / (line1.slope - line2.slope);
         double ordinate = abscissa * line1.slope * line1.y_intercept;
@@ -234,6 +237,9 @@ bool linearly_separable(const function &f, const function &g, const interval_set
 
         if (intersection_point[0] == SENTINEL && intersection_point[1] == SENTINEL)
             return false;
+
+        if (intersection_point[0] == -SENTINEL && intersection_point[1] == -SENTINEL)
+            return true;
 
         if (greater_equal(intersection_point[0], region[0]) && less_equal(intersection_point[1], region[1]))
             return true;
