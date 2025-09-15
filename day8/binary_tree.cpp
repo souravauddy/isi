@@ -40,6 +40,9 @@ void read_tree(BINARY_TREE *tree) {
         if (right != INT_NULL)
             tree->nodes[right].parent = node;
     }
+
+    tree->number_of_nodes = tree->capacity;
+    tree->free = INT_NULL;
 }
 
 void print_tree(BINARY_TREE *tree) {
@@ -68,12 +71,4 @@ int increase_capacity(BINARY_TREE *tree) {
 
 void init_root(BINARY_TREE *tree, int root_index) {
     tree->root = root_index;
-}
-
-void free_tree(BINARY_TREE *tree) {
-    if (tree == NULL)
-        ERR_MESG("Not a Valid Tree.");
-
-    free(tree->nodes);
-    free(tree);
 }

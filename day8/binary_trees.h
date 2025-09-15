@@ -1,7 +1,8 @@
-#include "../day6/common.h"
+#ifndef _LOCAL_Tree
 
-#ifndef Tree
-#define Tree
+#define _LOCAL_Tree
+
+#include "../day6/common.h"
 
 typedef int DATA;
 
@@ -18,11 +19,11 @@ struct BINARY_TREE {
     int root, capacity, number_of_nodes, free;
 };
 
-int init_tree(BINARY_TREE *tree, int capacity);
-void free_tree(BINARY_TREE *tree);
+void free_tree(BINARY_TREE *tree, bool local = false);
 void read_tree(BINARY_TREE *tree);
 void print_tree(BINARY_TREE *tree);
 int increase_capacity(BINARY_TREE *tree);
+int init_tree(BINARY_TREE *tree, int capacity);
 void init_root(BINARY_TREE *tree, int root_index);
 
 #endif

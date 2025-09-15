@@ -1,4 +1,4 @@
-#include "binary_trees.h"
+#include "../binary_trees.h"
 #include <iostream>
 
 void swap(int &a, int &b) {
@@ -24,7 +24,6 @@ int path_length(BINARY_TREE *tree, int node) {
 
 int find_lca(BINARY_TREE *tree, int first_node_index, int second_node_index) {
     int first_node_path_length = path_length(tree, first_node_index), second_node_path_length = path_length(tree, second_node_index);
-
     int difference = first_node_path_length - second_node_path_length;
 
     if (difference < 0)

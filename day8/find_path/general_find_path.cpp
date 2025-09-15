@@ -47,7 +47,6 @@ bool find_path(BINARY_TREE *tree, int target) {
     for (int node1 = 0; node1 < tree->capacity; node1++) {
         for (int node2 = node1 + 1; node2 < tree->capacity; node2++) {
             if (path_sum(tree, node1, node2) == target) {
-                std::cout << node1 << ' ' << node2 << '\n';
                 return true;
             }
         }
@@ -65,10 +64,10 @@ int main() {
 
     init_tree(tree, capacity);
     read_tree(tree);
+    init_root(tree, 0);
 
     int target;
     std::cin >> target;
-    init_root(tree, 0);
 
     std::cout << find_path(tree, target) << '\n';
 
