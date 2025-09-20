@@ -1,0 +1,8 @@
+dequeue
+push
+dequeue
+enqueue
+pop
+enqueue
+dequeue
+enqueue

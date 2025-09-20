@@ -1,0 +1,14 @@
+20
+10
+Stack is full
+20
+10
+50
+40
+30
+20
+10
+Stack is empty
+50
+40
+30

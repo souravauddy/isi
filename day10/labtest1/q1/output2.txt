@@ -1,0 +1,23 @@
+Stack is full
+9
+0
+-12
+-11
+-10
+0
+-1
+3
+4
+5
+9
+Stack is empty
+Stack is empty
+0
+-12
+-11
+-10
+0
+-1
+3
+4
+5

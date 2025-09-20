@@ -1,8 +1,8 @@
-#ifndef _HEAP_H_
+#ifndef _LOCAL_HEAP_H_
 
 #include "../day6/common.h"
 
-#define _HEAP_H_
+#define _LOCAL_HEAP_H_
 #define INIT_HEAP_SIZE 100
 
 struct HEAP {
@@ -12,11 +12,14 @@ struct HEAP {
     int (*comparator)(void *, int, int); /* returns -ve, 0, or +ve, as for qsort */
 };
 
-int init_heap(HEAP *h, size_t element_size, size_t capacity, int (*comparator)(void *, int, int));
+typedef struct HEAP HEAP;
+
+void initHeap(HEAP *h, size_t element_size, int (*comparator)(void *, int, int));
 void insert(HEAP *h, void *x);
-void delete_max(HEAP *h, void *max);
+void deleteMax(HEAP *h, void *max);
 void buildheap(HEAP *h);
-void heapsort(void *a, int N, size_t element_size, int (*comparator)(void *, int, int));
+void heap_sort(void *a, int N, size_t element_size, int (*comparator)(void *, int, int));
 void free_heap(HEAP *h);
+int empty(HEAP *h);
 
 #endif // _HEAP_H

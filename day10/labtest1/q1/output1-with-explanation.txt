@@ -1,0 +1,37 @@
+# All empty lines, and lines starting with '#' are inserted only to help
+# you understand the output; they should NOT be contained in the actual
+# output printed by your program. 
+
+# PUSH1 10: no output
+# PUSH1 20: no output
+
+# PRINT produces the following 2 lines
+20
+10
+
+# PUSH2 30: no output
+# PUSH2 40: no output
+# PUSH2 50: no output
+
+# PUSH2 60 produces
+Stack is full
+
+# PRINT produces stack1 followed by stack2
+20
+10
+# stack 2 starts here
+50
+40
+30
+
+# POP1 
+# POP1 
+# POP1 
+20
+10
+Stack is empty
+
+# PRINT 
+50
+40
+30
