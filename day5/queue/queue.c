@@ -35,8 +35,7 @@ int init_queue(QUEUE *queue, int element_size, int capacity) {
     queue->element_size = element_size;
     queue->capacity = capacity;
     queue->num_elements = 0;
-    queue->front = -1;
-    queue->rear = -1;
+    queue->front = queue->rear = -1;
 
     return 1;
 }

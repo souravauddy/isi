@@ -15,39 +15,60 @@ public:
     }
 };
 
-template<typename Type = int>
+enum MODE {
+    FIXED_SIZE_MODE,
+    VARIABLE_SIZE_MODE,
+};
+
+template<typename Type = int, size_t MODE = VARIABLE_SIZE_MODE>
 class stack {
+    inline constexpr static const int MIN_CAPACITY = int(20);
+
     Type *array_stack;
     int capacity, tos;
+
+    void increase_capacity() {
+        this->capacity = 2 * this->capacity;
+        array_stack = (Type *) realloc(array_stack, this->capacity);
+    }
+
 public:
 
-    stack() = default;
-
-    stack(int capacity) {
+    stack(int capacity = stack::MIN_CAPACITY) {
         array_stack = (Type *) malloc(capacity * sizeof(Type));
         this->capacity = capacity;
         this->tos = 0;
     }
 
-    void push(int x) {
-        if (tos == capacity)
-            throw stack_overflow_exception();
+    void push(Type x) {
+        if (tos == capacity) {
+            if (MODE == FIXED_SIZE_MODE)
+                throw stack_overflow_exception();
+
+            increase_capacity();
+        }
         
         array_stack[tos++] = x;
     }
 
-    int top() {
+    [[nodiscard]]
+    Type top() const {
         if (tos <= 0)
             throw stack_underflow_exception();
         
         return array_stack[tos - 1];
     }
 
-    int pop() {
+    void pop() {
         if (tos <= 0)
             throw stack_underflow_exception();
 
-        return array_stack[--tos];
+        --tos;
+    }
+
+    [[nodiscard]]
+    bool empty() const {
+        return tos <= 0;
     }
 
     void print() const noexcept {
@@ -61,19 +82,19 @@ public:
 };
 
 int main() {
-    int N;
-    std::cin >> N;
+    int array[] = {1, 49, 288, 2848, 208, 224};
+    stack<int, FIXED_SIZE_MODE> stck;
 
-    stack<int> stck(N);
+    for (int i = 0; i < 6; i++)
+        stck.push(array[i]);
 
-    stck.push(100);
-    stck.push(500);
+    stck.print();
+    
+    while (!stck.empty()) {
+        auto x = stck.top();
+        stck.pop();
 
-    try {
-        std::cout << stck.pop() << '\n';
-        std::cout << stck.pop() << '\n';
-        std::cout << stck.pop() << '\n';
-    } catch (stack_underflow_exception &exception) {
-        std::cout << exception.what() << '\n';
+        std::cout << x << '\n';
     }
+
 }
