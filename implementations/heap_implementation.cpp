@@ -151,8 +151,54 @@ public:
     }
 };
 
+template<typename Type, typename type_comparator = std::greater<Type>>
+void build_heap(Type *array, size_t size) {
+    Type *heap = (Type *) malloc((size + 1) * sizeof(Type));
+    type_comparator comparator;
+
+    auto valid_node = [&](int node) -> bool {
+        return node <= size;
+    };
+
+    for (int i = 0; i < size; i++)
+        heap[i + 1] = array[i];
+
+    for (int node = size >> 1; node > 0; node--) {
+        int current = node;
+
+        while (valid_node(current)) {
+            int next = current;
+
+            if (valid_node(2 * current) && comparator(heap[current], heap[2 * current]))
+                next = 2 * current;
+
+            if (valid_node(2 * current + 1) && comparator(heap[current], heap[2 * current + 1]))
+                next = 2 * current + 1;
+
+            if (current == next)
+                break;
+
+            current = next;
+        }
+    }
+
+    for (int i = 0; i < size; i++)
+        array[i] = heap[i + 1];
+
+    free(heap);
+}
+
 int main() {
     int array[] = {20, 30, 5, 222, 55, 2928};
+
+    build_heap<int, std::less<int>>(array, 6);
+
+    for (int i = 0; i < 6; i++)
+        std::cout << array[i] << ' ';
+    std::cout << '\n';
+    
+    return 0;
+
     priority_queue<int, decltype(
         [](int a, int b) -> bool {
             return a < b;
