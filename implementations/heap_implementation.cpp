@@ -193,12 +193,6 @@ int main() {
 
     build_heap<int, std::less<int>>(array, 6);
 
-    for (int i = 0; i < 6; i++)
-        std::cout << array[i] << ' ';
-    std::cout << '\n';
-    
-    return 0;
-
     priority_queue<int, decltype(
         [](int a, int b) -> bool {
             return a < b;
