@@ -42,7 +42,7 @@ public:
 
     void push(Type x) {
         if (tos == capacity) {
-            if (MODE == FIXED_SIZE_MODE)
+            if constexpr (MODE == FIXED_SIZE_MODE)
                 throw stack_overflow_exception();
 
             increase_capacity();
