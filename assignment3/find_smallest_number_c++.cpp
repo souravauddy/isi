@@ -1,6 +1,7 @@
 #include <unordered_set>
 #include <iostream>
 #include <vector>
+#include <print>
 
 int main() {
     int N, sum = 0;
@@ -30,6 +31,6 @@ int main() {
             break;
         }
     }
-
-    std::cout << "missing positive number = " << missing_positive_number << '\n';
+    
+    std::println("The missing number is {}", missing_positive_number);
 }
