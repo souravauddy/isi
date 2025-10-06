@@ -1,7 +1,7 @@
 #include "../binary_trees.h"
 #include <iostream>
-#include <cmath>
 #include <vector>
+#include <cmath>
 #include <queue>
 #include <map>
 
@@ -64,10 +64,6 @@ std::map<int, int> count_left_nodes(BINARY_TREE *tree) {
     std::map<int, int> number_of_left_nodes;
     int count = -1;
 
-    auto has_left_node = [&](int node) {
-        return tree->nodes[node].left != INT_NULL;  
-    };
-
     y_combinator([&](auto self, int node) -> void {
         if (node == INT_NULL)
             return;
@@ -121,10 +117,6 @@ void print_tree_diagram(BINARY_TREE *tree) {
     }
     
     int previous_level = 0;
-
-    auto p = [&](int x) -> int {
-        return tree->nodes[x].data;
-    };
 
     while (!queue2.empty()) {
         std::vector<int> sibling_nodes;

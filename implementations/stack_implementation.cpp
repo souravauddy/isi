@@ -29,7 +29,7 @@ class stack {
 
     void increase_capacity() {
         this->capacity = 2 * this->capacity;
-        array_stack = (Type *) realloc(array_stack, this->capacity);
+        array_stack = (Type *) realloc(array_stack, this->capacity * sizeof(Type));
     }
 
 public:
@@ -67,6 +67,11 @@ public:
     }
 
     [[nodiscard]]
+    int size() const {
+        return tos;
+    }
+
+    [[nodiscard]]
     bool empty() const {
         return tos <= 0;
     }
@@ -97,4 +102,13 @@ int main() {
         std::cout << x << '\n';
     }
 
+    for (int x : array)
+        stck.push(x);
+
+    while (!stck.empty()) {
+        std::cout << stck.top() << ' ';
+        stck.pop();
+    }
+
+    std::cout << '\n';
 }

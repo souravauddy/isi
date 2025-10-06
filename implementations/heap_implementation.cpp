@@ -5,6 +5,11 @@
 #include <functional>
 #include <typeinfo>
 
+[[nodiscard]]
+inline size_t max(size_t a, size_t b) {
+    return a > b ? a : b;
+}
+
 class empty_heap_exception : public std::exception {
 public:
 
@@ -88,18 +93,26 @@ class priority_queue {
     }
 
     void init_heap(size_t capacity) {
-        this->capacity = std::max(capacity + 1, priority_queue::MIN_CAPACITY);
+        this->capacity = max(capacity + 1, priority_queue::MIN_CAPACITY);
         this->heap = (Type *) malloc(this->capacity * sizeof(Type));
         this->insert_index = 1;
     }
 
 public:
     
-    priority_queue(int capacity = priority_queue::MIN_CAPACITY) {
-        init_heap(capacity);
+    priority_queue(int capacity = priority_queue::MIN_CAPACITY) : comparator() {
+        init_heap(max(capacity, priority_queue::MIN_CAPACITY));
     }
 
-    priority_queue(Type *array, size_t size) {
+    priority_queue(type_comparator &_comparator) : comparator(_comparator) {
+        init_heap(MIN_CAPACITY);
+    }
+
+    priority_queue(int capacity, type_comparator &_comparator) : comparator(_comparator) {
+        init_heap(max(capacity, priority_queue::MIN_CAPACITY));
+    }
+
+    priority_queue(Type *array, size_t size) : comparator() {
         init_heap(size);
         this->insert_index = size + 1;
 
@@ -116,7 +129,7 @@ public:
     }
 
     [[nodiscard]]
-    Type top() const {
+    Type& top() const {
         if (this->empty())
             throw empty_heap_exception();
 
