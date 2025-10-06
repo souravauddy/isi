@@ -8,7 +8,7 @@
 
 typedef void * DATA;
 
-const int INT_NULL = -1;
+extern const int INT_NULL;
 
 struct node {
     DATA data;

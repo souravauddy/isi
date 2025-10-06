@@ -2,6 +2,8 @@
 #include <stdbool.h>
 #include <assert.h>
 
+const int INT_NULL = (int) -1;
+
 void init_tree(TREE *tree, int capacity, int type_size, int (*comparator)(DATA, DATA)) {
     tree->capacity = capacity;
     tree->type_size = type_size;
