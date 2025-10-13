@@ -38,6 +38,7 @@ class queue {
     void increase_capacity() {
         this->capacity *= 2;
         array_queue = (Type *) realloc(array_queue, this->capacity * sizeof(Type));
+        assert(array_queue);
     }
 
 public:
