@@ -54,18 +54,23 @@ void add_term(expression *_expression, char sign, char variable) {
     _expression->number_of_terms++;
 }
 
-int term_comparator(const void *a, const void *b) {
-    return ((term *) a)->variable - ((term *) b)->variable;
+static inline int term_comparator(const void *a, const void *b) {
+    term *a_ = (term *) a, *b_ = (term *) b;
+
+    if (a_->variable == b_->variable)
+        return a_->sign - b_->sign;
+    
+    return a_->variable - b_->variable;
 }
 
-void init_expression(expression *_expression) {
+static inline void init_expression(expression *_expression) {
     _expression->_capacity = MIN_CAPACITY;
     _expression->number_of_terms = 0;
     _expression->terms = (term *) malloc(_expression->_capacity * sizeof(term));
     assert(_expression->terms);
 }
 
-void free_expression(expression *_expression) {
+static inline void free_expression(expression *_expression) {
     free(_expression->terms);
     free(_expression);
 }
@@ -84,8 +89,8 @@ static inline void _simplify(const expression *parsed_expression, char *string_e
     const int N = (int) string_length(string_expression);
 
     int *closing_parenthesis_indexes_stack = (int *) malloc((N >> 1) * sizeof(int));
-    int tos = 0, term_index = -1;
     assert(closing_parenthesis_indexes_stack);
+    int tos = 0, term_index = -1;
 
     for (int i = N - 1; i >= 0; i--) {
         if (string_expression[i] == ')') {
@@ -143,12 +148,46 @@ static inline bool equal_term(const term *term1, const term *term2) {
     return term1->sign == term2->sign && term1->variable == term2->variable;
 }
 
-bool equal(const expression *expression1, const expression *expression2) {
+static inline void _simplify_and_add_terms(expression *_expression, int plus_count, int minus_count, char variable) {
+    if (plus_count >= minus_count) {
+        for (int j = 0; j < plus_count - minus_count; j++)
+            add_term(_expression, '+', variable);
+    } else {
+        for (int j = 0; j < minus_count - plus_count; j++)
+            add_term(_expression, '-', variable);
+    }
+}
+
+expression * simplify_terms(expression *_expression) {
+    expression *simplified_expression = (expression *) malloc(sizeof(expression));
+    assert(simplified_expression);
+    init_expression(simplified_expression);
+
+    char previous_variable = _expression->terms[0].variable;
+    int plus_count = _expression->terms[0].sign == '+', minus_count = _expression->terms[0].sign == '-';
+
+    for (int i = 1; i < _expression->number_of_terms; i++) {
+        if (_expression->terms[i].variable == previous_variable) {
+            plus_count += _expression->terms[i].sign == '+';
+            minus_count += _expression->terms[i].sign == '-';
+            continue;
+        }
+
+        _simplify_and_add_terms(simplified_expression, plus_count, minus_count, previous_variable);
+        plus_count = _expression->terms[i].sign == '+';
+        minus_count = _expression->terms[i].sign == '-';
+        previous_variable = _expression->terms[i].variable;
+    }
+
+    _simplify_and_add_terms(simplified_expression, plus_count, minus_count, previous_variable);
+    free_expression(_expression);
+
+    return simplified_expression;
+}
+
+bool equal(expression *expression1, expression *expression2) {
     if (expression1->number_of_terms != expression2->number_of_terms)
         return false;
-
-    qsort(expression1->terms, expression1->number_of_terms, sizeof(term), term_comparator);
-    qsort(expression2->terms, expression2->number_of_terms, sizeof(term), term_comparator);
 
     for (int i = 0; i < expression1->number_of_terms; i++)
         if (!equal_term(&expression1->terms[i], &expression2->terms[i]))
@@ -164,8 +203,17 @@ int main() {
     expression *expression1 = parse_and_simplify_expression(string_expression1);
     expression *expression2 = parse_and_simplify_expression(string_expression2);
 
+    qsort(expression1->terms, expression1->number_of_terms, sizeof(term), term_comparator);
+    qsort(expression2->terms, expression2->number_of_terms, sizeof(term), term_comparator);
+
+    expression1 = simplify_terms(expression1);
+    expression2 = simplify_terms(expression2);
+
     puts(equal(expression1, expression2) ? "YES" : "NO");
 
+    print_expression(expression1);
+    print_expression(expression2);
+ 
     free_expression(expression1);
     free_expression(expression2);
 }

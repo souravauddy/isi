@@ -9,6 +9,7 @@
 typedef void * DATA;
 
 extern const int INT_NULL;
+extern const int SENTINEL;
 
 struct node {
     DATA data;

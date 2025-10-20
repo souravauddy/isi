@@ -3,6 +3,7 @@
 #include <assert.h>
 
 const int INT_NULL = (int) -1;
+const int SENTINEL = (int) 1e9 + 5;
 
 void init_tree(TREE *tree, int capacity, int type_size, int (*comparator)(DATA, DATA)) {
     tree->capacity = capacity;
@@ -109,6 +110,7 @@ inline void delete(TREE *tree, DATA data) {
 
 static inline void free_node(TREE *tree, int node) {
     tree->nodes[node].left = INT_NULL;
+    tree->nodes[node].data = SENTINEL;
     tree->nodes[node].right = tree->free;
     tree->free = node;
 }

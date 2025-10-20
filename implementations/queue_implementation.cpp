@@ -31,7 +31,7 @@ class queue {
     int front_pointer, rear_pointer, capacity, number_of_elements;
 
     [[nodiscard]]
-    inline int mod(int x) const {
+    qqint mod(const int x) const {
         return x >= capacity ? x - capacity : x;
     }
 
@@ -51,7 +51,7 @@ public:
         assert(array_queue);
     }
 
-    void insert(Type value) {
+    void push(Type value) {
         if (number_of_elements == capacity) {
             if (MODE == FIXED_SIZE_MODE)
                 throw full_queue_exception();
@@ -95,7 +95,7 @@ int main() {
     queue<int> que;
 
     for (int i = 0; i < 6; i++)
-        que.insert(array[i]);
+        que.push(array[i]);
 
     while (!que.empty()) {
         auto front = que.front();

@@ -1,7 +1,7 @@
 #include "../binary_trees.h"
-#include <functional>
 #include <iostream>
 #include <vector>
+#include <functional>
 #include <cmath>
 #include <queue>
 #include <map>
@@ -303,14 +303,19 @@ int main() {
     int capacity;
     std::cin >> capacity;
     BINARY_TREE *tree = (BINARY_TREE *) malloc(sizeof(BINARY_TREE));
+    int count_trees = 0;
 
     init_tree(tree, capacity);
     read_tree(tree);
-    int root;
-    std::cin >> root;
-    init_root(tree, root);
 
-    print_tree_diagram(tree);
+    for (int node = 0; node < capacity; node++) {
+        if (tree->nodes[node].data != SENTINEL && tree->nodes[node].parent == INT_NULL) {
+            init_root(tree, node);
+            std::println("Tree: {}", ++count_trees);
+            std::println();
+            print_tree_diagram(tree);
+        }
+    }
 
     free(tree->nodes);
     free(tree);

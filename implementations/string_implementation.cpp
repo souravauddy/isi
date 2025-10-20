@@ -59,10 +59,7 @@ public:
     [[nodiscard]]
     string operator+(const string &other) const {
         string new_string(*this);
-
-        for (int i = 0; i < other.size(); i++)
-            new_string.append(other);
-
+        new_string.append(other);
         return new_string;
     }
 
@@ -113,6 +110,16 @@ public:
     }
 
     [[nodiscard]]
+    char * begin() const {
+        return this->container;
+    }
+
+    [[nodiscard]]
+    char * end() const {
+        return this->container + this->_size;
+    }
+
+    [[nodiscard]]
     bool operator==(const string &other) const {
         if (this->size() != other.size())
             return false;
@@ -130,9 +137,10 @@ public:
 };
 
 int main() {
-    string line = "sourav auddy";
+    const string first_name = "sourav";
 
-    for (int i = 0; i < line.size(); i++)
-        std::cout << line[i];
-    std::cout << '\n';
+    for (const char character : first_name)
+        std::cout << character << '\n';
+    
+    std::cout << first_name << '\n';
 }

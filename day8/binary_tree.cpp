@@ -53,6 +53,15 @@ void print_tree(BINARY_TREE *tree) {
         std::cout << i << ' ' << tree->nodes[i].data << ' ' << tree->nodes[i].left << ' ' << tree->nodes[i].right << ' ' << tree->nodes[i].parent << '\n';
 }
 
+void dump_tree(BINARY_TREE *tree, FILE *file) {
+    fprintf(file, "%d\n", tree->capacity);
+
+    for (int node = 0; node < tree->capacity; node++)
+        fprintf(file, "%d %d %d\n", tree->nodes[node].data, tree->nodes[node].left, tree->nodes[node].right);
+
+    fprintf(file, "%d\n", tree->root);
+}
+
 int increase_capacity(BINARY_TREE *tree) {
     tree->nodes = (NODE *) realloc(tree->nodes, tree->capacity * 2 * sizeof(NODE));
     
