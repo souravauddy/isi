@@ -4,7 +4,7 @@
 #include "avl_tree.h"
 
 const int INT_NULL = (int) -1;
-const int SENTINEL = (int) 1e9 + 5;
+const int SENTINEL = (int) 0x7fffffff;
 const int *SENTINEL_POINTER = (int *) &SENTINEL;
 const int MIN_CAPACITY = (int) 2;
 

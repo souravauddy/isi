@@ -2,21 +2,23 @@
 #include <iostream>
 #include <cassert>
 #include <cstdlib>
+#include <limits>
 #include <random>
 #include <ranges>
 #include <vector>
 #include <print>
 
 const int INT_NULL = int(-1);
-const int SENTINEL = int(1e9 + 5);
 
 template<typename Type>
 struct node {
+    inline constexpr static const Type SENTINEL = std::numeric_limits<Type>::max();
+
     Type data;
     int left, right;
     size_t height;
 
-    node() : data(SENTINEL), left(INT_NULL), right(INT_NULL), height(1) {}
+    node() : data(node::SENTINEL), left(INT_NULL), right(INT_NULL), height(1) {}
 
     [[nodiscard]]
     bool operator<(const node &other) const {
@@ -92,6 +94,7 @@ class avl_tree {
         return left_child;
     }
 
+    [[nodiscard]]
     int left_rotation(const int node) {
         int right_child = nodes[node].right, previous_left_child = nodes[right_child].left;
 
@@ -103,6 +106,7 @@ class avl_tree {
         return right_child;
     }
 
+    [[nodiscard]]
     int balanced_node(const int node) {
         int balance_factor = get_balance_factor(node);
 
@@ -133,9 +137,9 @@ class avl_tree {
         assert(false);
     }
 
-    void free_node(const int node) {
+    void free_node(const int node) noexcept {
         assert(node != INT_NULL);
-        nodes[node].data = SENTINEL;
+        nodes[node].data = ::node<Type>::SENTINEL;
         nodes[node].right = free;
         nodes[node].left = INT_NULL;
         nodes[node].height = 1;
@@ -170,7 +174,7 @@ class avl_tree {
         return node;
     }
 
-     void inorder(int node) {
+    void inorder(int node) {
         if (node == INT_NULL)
             return;
 
@@ -296,6 +300,11 @@ public:
         return number_of_nodes;
     }
 
+    [[nodiscard]]
+    node<Type>& operator[](const int index) noexcept {
+        return nodes[index];
+    }
+
     void dump(FILE *file = stderr) const {
         std::println(file, "{}", capacity);
 
@@ -313,6 +322,46 @@ public:
     }
 
     [[nodiscard]]
+    int lower_bound(const Type &data) const {
+        int lower_bound_index = INT_NULL, current = root;
+
+        while (current != INT_NULL) {
+            if (nodes[current].data == data)
+                return current;
+
+            if (nodes[current].data < data) {
+                lower_bound_index = current;
+                current = nodes[current].right;
+                continue;
+            }
+
+            current = nodes[current].left;
+        }
+
+        return lower_bound_index;
+    }
+
+    [[nodiscard]]
+    int upper_bound(const Type &data) const {
+        int upper_bound_index = INT_NULL, current = root;
+
+        while (current != INT_NULL) {
+            if (nodes[current].data == data)
+                return current;
+
+            if (nodes[current].data > data) {
+                upper_bound_index = current;
+                current = nodes[current].left;
+                continue;
+            }
+
+            current = nodes[current].right;
+        }
+
+        return upper_bound_index;
+    }
+
+    [[nodiscard]]
     std::vector<Type>::iterator end() {
         return iterator_container.end();
     }
@@ -327,7 +376,6 @@ public:
 
 int main() {
     avl_tree<int> tree;
-    std::vector<int> values;
 
     std::random_device device;
     std::mt19937 generator(device());
@@ -348,6 +396,27 @@ int main() {
 
     for (const int value : tree_values)
         tree.insert(value);
+
+    std::println("contains value 70: {}", tree.contains(70));
+    std::println("contains value 62: {}", tree.contains(62));
+    std::println("contains value 99: {}", tree.contains(90));
+    std::println("contains value 65: {}", tree.contains(65));
+
+    for (const int value : tree)
+        std::print("{} ", value);
+    std::println();
+
+    auto upper_bound_index = tree.upper_bound(62);
+
+    if (upper_bound_index != INT_NULL)
+        std::println("upper bound value of 62 = {}", tree[upper_bound_index].data);
+
+    auto lower_bound_index = tree.lower_bound(62);
+
+    if (lower_bound_index != INT_NULL)
+        std::println("lower bound value of 62 = {}", tree[lower_bound_index].data);
+
+    std::println("upper bound of 75 = {}", tree[tree.upper_bound(0)].data);
     
     tree.dump();
 }

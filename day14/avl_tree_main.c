@@ -29,10 +29,8 @@ int get_height(const avl_tree *tree, const int node) {
 
 int main() {
     int array[] =    {1, 2, 3, 4, 50, 6, 17, 8, 19, 11, 10, 12, 45, 14, 25};
-    // int indicies[] = {0, 1, 2, 3, 4,  5,  6, 7,  8,  9, 10, 11, 12, 13, 14};
 
     avl_tree *tree = (avl_tree *) malloc(sizeof(avl_tree));
-
     init_tree(tree, 20, sizeof(int), int_comparator);
 
     for (int i = 0; i < 15; i++)
