@@ -1,6 +1,7 @@
 #include <iostream>
 #include <print>
 
+[[nodiscard]]
 int binpow(int base, int power, const int MOD) {
     int result = 1;
 
@@ -15,6 +16,7 @@ int binpow(int base, int power, const int MOD) {
     return result;
 }
 
+[[nodiscard]]
 bool composite_number(const int number, const int base, const int r, const int d) {
     int candidate = binpow(base, d, number);
 
@@ -31,6 +33,7 @@ bool composite_number(const int number, const int base, const int r, const int d
     return true;
 }
 
+[[nodiscard]]
 bool miller_rabin(const int number) {
     if (number < 2 || (number > 2 && number % 2 == 0))
         return false;
