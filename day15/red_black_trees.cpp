@@ -3,11 +3,11 @@
 #include <iostream>
 #include <numeric>
 #include <cassert>
+#include <random>
 #include <vector>
 #include <limits>
 #include <format>
 #include <print>
-#include <set>
 
 const int INT_NULL = int(-1);
 
@@ -61,9 +61,6 @@ class red_black_tree {
 
         nodes[right_child].left = node;
         nodes[node].right = previous_left_child;
-
-        /* write some additional logic for some proper implementation. */
-
         std::swap(nodes[right_child].color, nodes[nodes[right_child].left].color);
 
         return right_child;
@@ -74,9 +71,6 @@ class red_black_tree {
 
         nodes[left_child].right = node;
         nodes[node].left = previous_right_child;
-
-        /* write some additional code for some proper implementation. */
-
         std::swap(nodes[left_child].color, nodes[nodes[left_child].right].color);
 
         if (can_be_flipped_colors(left_child))
@@ -96,10 +90,14 @@ class red_black_tree {
     [[nodiscard]]
     int insert_node(int node, const Type &data) {
         if (node == INT_NULL) {
+            if (free == INT_NULL)
+                increase_capacity();
+
             int previous_free = free;
             nodes[free].data = data;
             free = nodes[free].right;
             nodes[previous_free].right = INT_NULL;
+            number_of_nodes++;
             return previous_free;
         }
 
@@ -127,7 +125,7 @@ class red_black_tree {
     [[nodiscard]]
     int erase_node(int node, const Type &data) noexcept {
         if (node == INT_NULL)
-            return;
+            return INT_NULL;
 
         if (nodes[node].data > data)
             nodes[node].left = erase_node(nodes[node].left, data);
@@ -136,8 +134,6 @@ class red_black_tree {
             nodes[node].right = erase_node(nodes[node].right, data);
 
         const int left_child = nodes[node].left, right_child = nodes[node].right;
-
-        
     }
 
 public:
@@ -212,6 +208,18 @@ public:
         return root;
     }
 
+    void read(const int ROOT = 0) {
+        std::cin >> capacity;
+        nodes.resize(capacity);
+
+        for (int i = 0; i < capacity; i++)
+            std::cin >> nodes[i].data >> nodes[i].left >> nodes[i].right;
+
+        free = INT_NULL;
+        root = ROOT;
+        number_of_nodes = capacity;
+    }
+
     void dump(bool colors = false, FILE *file = stderr) {
         std::println(file, "{}", capacity);
         
@@ -249,16 +257,27 @@ void preorder(const red_black_tree<int> &tree, const int node) {
 
 int main() {
     std::vector<int> numbers{2, 4, 11, 5, 3, 4, 24, 21, 15, 33, 123, 6};
-    std::set<int> seen;
     red_black_tree<int> tree;
 
-    const int N = int(numbers.size());
+    tree.read();
+    
+    // std::random_device device;
+    // std::mt19937 generator(device());
+    // std::vector<int> values;
 
-    for (int i = 0; i < N; i++)
-        tree.insert(numbers[i]);
+    // for (int i = 0; i < 8; i++) {
+    //     values.push_back(generator() % 1000);
+    // }
 
-    for (int i = 0; i < 5; i += 2)
-        tree.erase(numbers[i]);
+    // std::sort(values.begin(), values.end());
+
+    // for (int value : values)
+    //     tree.insert(value);
+
+    // const int N = int(numbers.size());
+
+    // for (int i = 0; i < N; i++)
+    //     tree.insert(numbers[i]);
 
     tree.dump();
     tree.dump(true); // dump with colors.
