@@ -169,10 +169,10 @@ public:
         int current = root;
 
         while (current != INT_NULL) {
-            if (nodes[current] == data)
+            if (nodes[current].data == data)
                 return current;
 
-            if (nodes[current] > data) {
+            if (nodes[current].data > data) {
                 current = nodes[current].left;
                 continue;
             }
