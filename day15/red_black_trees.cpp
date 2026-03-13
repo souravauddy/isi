@@ -124,16 +124,19 @@ class red_black_tree {
     
     [[nodiscard]]
     int erase_node(int node, const Type &data) noexcept {
-        if (node == INT_NULL)
-            return INT_NULL;
+        // if (node == INT_NULL)
+        //     return INT_NULL;
 
-        if (nodes[node].data > data)
-            nodes[node].left = erase_node(nodes[node].left, data);
+        // if (nodes[node].data > data)
+        //     nodes[node].left = erase_node(nodes[node].left, data);
 
-        if (nodes[node].data < data)
-            nodes[node].right = erase_node(nodes[node].right, data);
+        // if (nodes[node].data < data)
+        //     nodes[node].right = erase_node(nodes[node].right, data);
 
-        const int left_child = nodes[node].left, right_child = nodes[node].right;
+        // const int left_child = nodes[node].left, right_child = nodes[node].right;
+        assert(false);
+
+        return INT_NULL;
     }
 
 public:
@@ -153,6 +156,8 @@ public:
     }
 
     void erase(const Type &data) noexcept {
+        assert(false);
+
         this->root = erase_node(root, data);
 
         if (this->root != INT_NULL)
@@ -242,7 +247,7 @@ void inorder(const red_black_tree<int> &tree, const int node) {
         return;
 
     inorder(tree, tree[node].left);
-    std::print("{} ", (tree[node].data == INT_MAX) ? (1e9 + 5) : tree[node].data);
+    std::print("{} ", (tree[node].data == ::node<int>::SENTINEL) ? (1e9 + 5) : tree[node].data);
     inorder(tree, tree[node].right);
 }
 

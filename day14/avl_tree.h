@@ -24,11 +24,12 @@ struct avl_tree {
     int root, free;
     size_t number_of_nodes, capacity, type_size;
     int (*comparator)(DATA, DATA);
+    void (*data_destructor)(DATA);
 };
 
 typedef struct avl_tree avl_tree;
 
-extern void init_tree(avl_tree *tree, const int capacity, const int type_size, int (*compator)(DATA, DATA));
+extern void init_tree(avl_tree *tree, const int capacity, const int type_size, int (*compator)(DATA, DATA), void (*data_destructor)(DATA));
 extern void init_root(avl_tree *tree, const int root);
 extern void insert(avl_tree *tree, const DATA data);
 extern void delete(avl_tree *tree, const DATA data);

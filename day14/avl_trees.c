@@ -12,13 +12,14 @@ static inline int max(const int a, const int b) {
     return a > b ? a : b;
 }
 
-void init_tree(avl_tree *tree, const int capacity, const int type_size, int (*comparator)(DATA, DATA)) {
+void init_tree(avl_tree *tree, const int capacity, const int type_size, int (*comparator)(DATA, DATA), void (*data_destructor)(DATA)) {
     tree->capacity = max(capacity, MIN_CAPACITY);
     tree->type_size = type_size;
     tree->free = tree->number_of_nodes = 0;
     tree->root = INT_NULL;
     tree->nodes = (node *) malloc(tree->capacity * sizeof(node));
     tree->comparator = comparator;
+    tree->data_destructor = data_destructor;
 
     for (int i = 0; i < tree->capacity; i++) {
         tree->nodes[i].left = INT_NULL;
@@ -183,6 +184,7 @@ static inline void _free_node(avl_tree *tree, const int node) {
     tree->nodes[node].height = 1;
     tree->nodes[node].right = tree->free;
     tree->free = node;
+    tree->data_destructor(tree->nodes[tree->free].data);
     memcpy(tree->nodes[tree->free].data, SENTINEL_POINTER, tree->type_size);
 }
 

@@ -211,11 +211,6 @@ int main() {
             return a < b;
         }
     )> heap(array, 6);
-    // priority_queue<std::string, std::less<std::string>> heap;
-
-    // heap.insert(std::string("sourav"));
-    // heap.insert(std::string("auddy"));
-
     
     heap.insert(20);
     heap.insert(30);
@@ -223,7 +218,6 @@ int main() {
     heap.insert(222);
     heap.insert(55);
     heap.insert(2);
-    
 
     while (!heap.empty()) {
         auto x = heap.top();

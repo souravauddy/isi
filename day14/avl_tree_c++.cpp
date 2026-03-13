@@ -312,7 +312,7 @@ public:
         return nodes[index];
     }
 
-    void read(const int ROOT = 0) {
+    void read(const int ROOT = 0) noexcept {
         std::cin >> capacity;
         nodes.resize(capacity);
 

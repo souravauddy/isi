@@ -22,11 +22,10 @@ int main() {
     
     std::vector<std::array<int, 2>> edge_list;
 
-    for (int v = 0; v < vertices; v++) {
+    for (int v = 0; v < vertices; v++)
         for (const int neighbor : adjacency_list[v])
             if (v < neighbor)
                 edge_list.push_back({v, neighbor});
-    }
 
     std::println("{}", edge_list);
 }
